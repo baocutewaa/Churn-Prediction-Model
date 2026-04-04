@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from urllib import error, request
 
 import streamlit as st
@@ -10,7 +11,7 @@ st.set_page_config(page_title="Churn Predictor", page_icon="📉", layout="cente
 st.title("Customer Churn Prediction")
 st.caption("Submit customer details to get churn probability and risk level.")
 
-api_url = st.text_input("FastAPI /predict URL", value="http://127.0.0.1:8000/predict")
+api_url = st.secrets.get("API_URL", os.getenv("API_URL", "http://127.0.0.1:8000/predict"))
 
 with st.form("churn_form"):
     credit_score = st.number_input("Credit Score", min_value=300, max_value=900, value=650)
