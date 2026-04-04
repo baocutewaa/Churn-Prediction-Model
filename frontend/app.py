@@ -5,13 +5,18 @@ import os
 from urllib import error, request
 
 import streamlit as st
+from streamlit.errors import StreamlitSecretNotFoundError
 
 
 st.set_page_config(page_title="Churn Predictor", page_icon="📉", layout="centered")
 st.title("Customer Churn Prediction")
 st.caption("Submit customer details to get churn probability and risk level.")
 
-api_url = st.secrets.get("API_URL", os.getenv("API_URL", "http://127.0.0.1:8000/predict"))
+default_api_url = os.getenv("API_URL", "http://127.0.0.1:8000/predict")
+try:
+    api_url = st.secrets.get("API_URL", default_api_url)
+except StreamlitSecretNotFoundError:
+    api_url = default_api_url
 
 with st.form("churn_form"):
     credit_score = st.number_input("Credit Score", min_value=300, max_value=900, value=650)
