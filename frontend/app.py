@@ -60,9 +60,13 @@ if submitted:
 
         probability = float(data["churn_probability"])
         risk = str(data["risk_level"])
+        will_churn = int(data.get("will_churn", 0))
+        applied_threshold = float(data.get("applied_threshold", 0.4))
 
         st.success("Prediction complete")
         st.metric("Churn Probability", f"{probability:.2%}")
+        st.write(f"Decision Threshold: **{applied_threshold:.2f}**")
+        st.write(f"Predicted Class: **{'Churn' if will_churn == 1 else 'No Churn'}**")
 
         if risk == "High":
             st.error(f"Risk Level: {risk}")

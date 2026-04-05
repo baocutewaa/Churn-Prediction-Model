@@ -1,14 +1,78 @@
 {
-  "logistic_regression": {
-    "accuracy": 0.808,
-    "precision": 0.5891472868217055,
-    "recall": 0.18673218673218672,
-    "roc_auc": 0.7747500967839951
+  "model_name": "xgboost",
+  "selection_metric": "expected_cost",
+  "calibration": {
+    "enabled": true,
+    "method": "sigmoid"
   },
-  "xgboost": {
-    "accuracy": 0.869,
-    "precision": 0.7935222672064778,
-    "recall": 0.48157248157248156,
-    "roc_auc": 0.8653275771919839
+  "cv_roc_auc": {
+    "logistic_regression": 0.7749833975645297,
+    "xgboost": 0.8637110298899421
+  },
+  "model_thresholds": {
+    "logistic_regression": 0.1787434857629797,
+    "xgboost": 0.14203798808356974
+  },
+  "threshold_total_cost": {
+    "logistic_regression": 508.0,
+    "xgboost": 399.0
+  },
+  "cost_config": {
+    "false_positive": 1.0,
+    "false_negative": 5.0
+  },
+  "risk_thresholds": {
+    "medium": 0.14203798808356974,
+    "high": 0.3420379880835698
+  },
+  "train_timestamp_utc": "2026-04-05T03:00:52.064693+00:00",
+  "split": {
+    "train": 0.6,
+    "calibration": 0.1,
+    "threshold_tuning": 0.1,
+    "test": 0.2
+  },
+  "class_balance": {
+    "positive_count_train": 1223,
+    "negative_count_train": 4777,
+    "scale_pos_weight_xgboost": 3.9059689288634507
+  },
+  "best_metrics": {
+    "accuracy": 0.73,
+    "precision": 0.41800246609124536,
+    "recall": 0.8329238329238329,
+    "f1": 0.5566502463054187,
+    "f2": 0.6949569495694957,
+    "roc_auc": 0.8632407445966768,
+    "pr_auc": 0.7129384964230169,
+    "brier_score": 0.10352378954495604,
+    "expected_cost": 0.406,
+    "threshold": 0.14203798808356974
+  },
+  "all_metrics": {
+    "logistic_regression": {
+      "accuracy": 0.6885,
+      "precision": 0.3729411764705882,
+      "recall": 0.7788697788697788,
+      "f1": 0.5043754972155927,
+      "f2": 0.6396287328490718,
+      "roc_auc": 0.7911054351732317,
+      "pr_auc": 0.533748342939652,
+      "brier_score": 0.12840528195795387,
+      "expected_cost": 0.4915,
+      "threshold": 0.1787434857629797
+    },
+    "xgboost": {
+      "accuracy": 0.73,
+      "precision": 0.41800246609124536,
+      "recall": 0.8329238329238329,
+      "f1": 0.5566502463054187,
+      "f2": 0.6949569495694957,
+      "roc_auc": 0.8632407445966768,
+      "pr_auc": 0.7129384964230169,
+      "brier_score": 0.10352378954495604,
+      "expected_cost": 0.406,
+      "threshold": 0.14203798808356974
+    }
   }
 }
