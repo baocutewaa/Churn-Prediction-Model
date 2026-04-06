@@ -13,7 +13,7 @@ from utils.validators import missing_columns_in_frame, validate_json_records
 
 st.set_page_config(page_title="Batch Churn Predictor", layout="wide")
 st.title("Batch Churn Prediction")
-st.caption("Upload CSV or paste JSON array, then send records to /predict-batch.")
+st.caption("Upload CSV or paste JSON array.")
 
 batch_api_url = get_batch_url()
 
