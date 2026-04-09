@@ -1,47 +1,64 @@
 # Churn Prediction System
 
-This project builds an end-to-end churn prediction workflow using `Churn_Modelling.csv`:
-- Model training with Logistic Regression (baseline) and XGBoost (main model)
-- FastAPI backend for real-time scoring
-- Streamlit frontend form for user input
+End-to-end customer churn prediction project with:
+- Model training and evaluation (Logistic Regression + XGBoost)
+- FastAPI backend for real-time and batch predictions
+- Streamlit frontend for single and batch scoring
 
-1. Train the model
+Dataset: `data/Churn_Modelling.csv`
+
+## Quick Start (Windows)
 
 From project root:
 
-```bash
-.venv\Scripts\python.exe model/train_model.py
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-What it does:
+## 1. Train The Model
+
+```powershell
+.\.venv\Scripts\python.exe model\train_model.py
+```
+
+What training does:
 - Drops `RowNumber`, `CustomerId`, `Surname`
-- Encodes `Geography` with one-hot encoding
-- Encodes `Gender` with label encoding (`Female=0`, `Male=1`)
-- Adds engineered features (`BalanceSalaryRatio`, `BalancePerProduct`, `TenureAgeRatio`, `CreditScoreAgeInteraction`, `ActivityBalanceInteraction`, `IsSenior`)
+- Encodes `Geography` using one-hot encoding
+- Encodes `Gender` using ordinal mapping (`Female=0`, `Male=1`)
+- Adds engineered features:
+  - `BalanceSalaryRatio`
+  - `BalancePerProduct`
+  - `TenureAgeRatio`
+  - `CreditScoreAgeInteraction`
+  - `ActivityBalanceInteraction`
+  - `IsSenior`
 - Uses train/calibration/threshold/test split (`60/10/10/20`)
-- Tunes both Logistic Regression and XGBoost using `GridSearchCV` + stratified 5-fold CV
-- Handles class imbalance (`class_weight='balanced'` and `scale_pos_weight`)
-- Calibrates predicted probabilities (`CalibratedClassifierCV`, sigmoid)
-- Optimizes a decision threshold using business cost (default: `FP=1`, `FN=5`)
-- Evaluates with `Accuracy`, `Precision`, `Recall`, `F1`, `F2`, `ROC-AUC`, `PR-AUC`, `Brier Score`, `Expected Cost`
-- Selects best model by `Expected Cost`
-- Saves best model, thresholds, metadata to `model/churn_model.pkl`
-- Saves detailed metrics and metadata to `model/metrics.json`
+- Tunes models with `GridSearchCV` + stratified 5-fold CV
+- Handles class imbalance (`class_weight='balanced'`, `scale_pos_weight`)
+- Calibrates probabilities with `CalibratedClassifierCV` (`sigmoid`)
+- Chooses threshold by business cost (`FP=1`, `FN=5` by default)
+- Selects the best model by expected cost
 
-2. Run FastAPI backend
+Saved artifacts:
+- `model/churn_model.pkl` (model + thresholds + metadata)
+- `model/metrics.json` (detailed evaluation metrics)
 
-```bash
-.venv\Scripts\python.exe -m uvicorn api.main:app --reload
+## 2. Run FastAPI Backend
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --reload
 ```
 
-- API docs: http://127.0.0.1:8000/docs
-- Prediction endpoint: `POST /predict`
-- Batch prediction endpoint: `POST /predict-batch`
-- Model metadata endpoint: `GET /model-info`
+Useful endpoints:
+- `GET /` health check
+- `GET /docs` interactive API docs
+- `POST /predict` single prediction
+- `POST /predict-batch` batch prediction
+- `GET /model-info` model metadata (thresholds, calibration, cost config, metrics)
 
-`GET /model-info` now also returns calibration settings and cost configuration.
-
-Example request body:
+### `POST /predict` Request Example
 
 ```json
 {
@@ -58,7 +75,7 @@ Example request body:
 }
 ```
 
-Example response:
+### Response Example
 
 ```json
 {
@@ -69,19 +86,27 @@ Example response:
 }
 ```
 
-Risk rule:
-- Dynamic thresholds are loaded from trained model metadata (`risk_thresholds`)
-- `prob >= high_threshold` -> High
-- `medium_threshold <= prob < high_threshold` -> Medium
-- `< medium_threshold` -> Low
+Risk assignment:
+- Thresholds are loaded from trained model metadata (`risk_thresholds`)
+- `prob >= high_threshold` => `High`
+- `medium_threshold <= prob < high_threshold` => `Medium`
+- `prob < medium_threshold` => `Low`
 
-Cost-based threshold tuning:
-- Prediction threshold is chosen to minimize: `total_cost = FP_cost * FP + FN_cost * FN`
-- You can change costs in `model/train_model.py`:
-  - `COST_FALSE_POSITIVE`
-  - `COST_FALSE_NEGATIVE`
+## 3. Run Streamlit Frontend
 
-Batch request example (`POST /predict-batch`):
+In another terminal:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run frontend\Home.py
+```
+
+Notes:
+- Open the URL shown in terminal (usually `http://localhost:8501`)
+- Keep FastAPI backend running before submitting predictions from UI
+
+## Batch API Example
+
+`POST /predict-batch`
 
 ```json
 {
@@ -102,13 +127,11 @@ Batch request example (`POST /predict-batch`):
 }
 ```
 
-3. Run Streamlit frontend
+## Project Structure
 
-In a second terminal:
-
-```bash
-.venv\Scripts\python.exe -m streamlit run frontend/app.py
+```text
+api/             FastAPI service
+data/            Input datasets
+frontend/        Streamlit app (Home + pages)
+model/           Training code, metrics, and model artifact
 ```
-
-- Open the shown local URL (usually http://localhost:8501)
-- Ensure FastAPI is running before submitting predictions
