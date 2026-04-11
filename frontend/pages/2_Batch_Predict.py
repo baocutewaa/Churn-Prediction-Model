@@ -64,12 +64,30 @@ if st.button("Predict Batch", type="primary", disabled=send_disabled):
             st.warning("API returned an empty predictions list.")
         else:
             pred_frame = pd.DataFrame(predictions)
+            pred_frame = pred_frame.drop(
+                columns=["global_threshold", "is_segment_threshold_adjusted", "is_segment_threshold_adjust"],
+                errors="ignore",
+            )
             st.subheader("Prediction Results")
             st.dataframe(pred_frame, use_container_width=True)
 
             churn_count = int((pred_frame["will_churn"] == 1).sum()) if "will_churn" in pred_frame.columns else 0
             st.write(f"Total records: {len(pred_frame)}")
             st.write(f"Predicted churn records: {churn_count}")
+
+            if "customer_segment" in pred_frame.columns:
+                segment_counts = pred_frame["customer_segment"].value_counts().to_dict()
+                st.write("Segment distribution:")
+                st.json(segment_counts)
+
+            if "applied_threshold" in pred_frame.columns and "customer_segment" in pred_frame.columns:
+                threshold_summary = (
+                    pred_frame.groupby("customer_segment", as_index=False)["applied_threshold"]
+                    .mean()
+                    .rename(columns={"applied_threshold": "avg_applied_threshold"})
+                )
+                st.write("Average threshold by segment:")
+                st.dataframe(threshold_summary, use_container_width=True)
 
             st.download_button(
                 label="Download predictions CSV",

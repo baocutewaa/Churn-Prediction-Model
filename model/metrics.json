@@ -17,15 +17,45 @@
     "logistic_regression": 508.0,
     "xgboost": 399.0
   },
+  "model_segment_thresholds": {
+    "logistic_regression": {
+      "VIP": 0.17044369671061774,
+      "Regular": 0.2598251436323976
+    },
+    "xgboost": {
+      "VIP": 0.12983376280050044,
+      "Regular": 0.34
+    }
+  },
+  "segment_threshold_total_cost": {
+    "logistic_regression": {
+      "VIP": 447.0,
+      "Regular": 172.0
+    },
+    "xgboost": {
+      "VIP": 325.0,
+      "Regular": 127.0
+    }
+  },
   "cost_config": {
     "false_positive": 1.0,
-    "false_negative": 5.0
+    "false_negative": 5.0,
+    "vip_false_negative_multiplier": 1.5
   },
   "risk_thresholds": {
-    "medium": 0.14203798808356974,
-    "high": 0.3420379880835698
+    "medium": 0.34,
+    "high": 0.54
   },
-  "train_timestamp_utc": "2026-04-05T03:00:52.064693+00:00",
+  "segment_thresholds": {
+    "VIP": 0.12983376280050044,
+    "Regular": 0.34
+  },
+  "segmentation_config": {
+    "vip_balance_threshold": 100000.0,
+    "vip_salary_threshold": 120000.0,
+    "rule": "VIP if Balance >= vip_balance_threshold or EstimatedSalary >= vip_salary_threshold"
+  },
+  "train_timestamp_utc": "2026-04-11T15:04:31.181829+00:00",
   "split": {
     "train": 0.6,
     "calibration": 0.1,
@@ -38,41 +68,65 @@
     "scale_pos_weight_xgboost": 3.9059689288634507
   },
   "best_metrics": {
-    "accuracy": 0.73,
-    "precision": 0.41800246609124536,
-    "recall": 0.8329238329238329,
-    "f1": 0.5566502463054187,
-    "f2": 0.6949569495694957,
+    "accuracy": 0.741,
+    "precision": 0.4276401564537158,
+    "recall": 0.8058968058968059,
+    "f1": 0.5587734241908007,
+    "f2": 0.6847599164926931,
     "roc_auc": 0.8632407445966768,
     "pr_auc": 0.7129384964230169,
     "brier_score": 0.10352378954495604,
-    "expected_cost": 0.406,
-    "threshold": 0.14203798808356974
+    "expected_cost": 0.46575,
+    "threshold": 0.34,
+    "segment_distribution": {
+      "VIP": 0.691,
+      "Regular": 0.309
+    },
+    "segment_cost_config": {
+      "vip_fn_multiplier": 1.5,
+      "regular_fn_multiplier": 1.0
+    }
   },
   "all_metrics": {
     "logistic_regression": {
-      "accuracy": 0.6885,
-      "precision": 0.3729411764705882,
-      "recall": 0.7788697788697788,
-      "f1": 0.5043754972155927,
-      "f2": 0.6396287328490718,
+      "accuracy": 0.6905,
+      "precision": 0.3681592039800995,
+      "recall": 0.7272727272727273,
+      "f1": 0.4888521882741536,
+      "f2": 0.6085526315789473,
       "roc_auc": 0.7911054351732317,
       "pr_auc": 0.533748342939652,
       "brier_score": 0.12840528195795387,
-      "expected_cost": 0.4915,
-      "threshold": 0.1787434857629797
+      "expected_cost": 0.594,
+      "threshold": 0.2598251436323976,
+      "segment_distribution": {
+        "VIP": 0.691,
+        "Regular": 0.309
+      },
+      "segment_cost_config": {
+        "vip_fn_multiplier": 1.5,
+        "regular_fn_multiplier": 1.0
+      }
     },
     "xgboost": {
-      "accuracy": 0.73,
-      "precision": 0.41800246609124536,
-      "recall": 0.8329238329238329,
-      "f1": 0.5566502463054187,
-      "f2": 0.6949569495694957,
+      "accuracy": 0.741,
+      "precision": 0.4276401564537158,
+      "recall": 0.8058968058968059,
+      "f1": 0.5587734241908007,
+      "f2": 0.6847599164926931,
       "roc_auc": 0.8632407445966768,
       "pr_auc": 0.7129384964230169,
       "brier_score": 0.10352378954495604,
-      "expected_cost": 0.406,
-      "threshold": 0.14203798808356974
+      "expected_cost": 0.46575,
+      "threshold": 0.34,
+      "segment_distribution": {
+        "VIP": 0.691,
+        "Regular": 0.309
+      },
+      "segment_cost_config": {
+        "vip_fn_multiplier": 1.5,
+        "regular_fn_multiplier": 1.0
+      }
     }
   }
 }
