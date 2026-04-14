@@ -40,7 +40,7 @@ metrics = load_metrics()
 best_metrics = metrics.get("best_metrics", {})
 segment_thresholds = metrics.get("segment_thresholds", {})
 
-metric_col1, metric_col2, metric_col3, metric_col4, metric_col5 = st.columns(5)
+metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
 metric_col1.metric("Accuracy", f"{float(best_metrics.get('accuracy', 0.0)):.1%}")
 metric_col2.metric(
     "Recall",
@@ -49,7 +49,6 @@ metric_col2.metric(
 )
 metric_col3.metric("Precision", f"{float(best_metrics.get('precision', 0.0)):.1%}")
 metric_col4.metric("ROC-AUC", f"{float(best_metrics.get('roc_auc', 0.0)):.3f}")
-metric_col5.metric("Expected Cost", f"{float(best_metrics.get('expected_cost', 0.0)):.3f}")
 
 
 st.subheader("Segment Thresholds")
