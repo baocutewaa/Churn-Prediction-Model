@@ -55,7 +55,7 @@
     "vip_salary_threshold": 120000.0,
     "rule": "VIP if Balance >= vip_balance_threshold or EstimatedSalary >= vip_salary_threshold"
   },
-  "train_timestamp_utc": "2026-04-11T15:04:31.181829+00:00",
+  "train_timestamp_utc": "2026-04-13T00:50:01.961991+00:00",
   "split": {
     "train": 0.6,
     "calibration": 0.1,

@@ -1,3 +1,86 @@
+# Cấu trúc thư mục dự án
+
+```
+Churn Prediction Model/
+│
+├── api/
+│   └── main.py
+│
+├── data/
+│   ├── Churn_Modelling.csv
+│   └── Test_Batch_Predict.csv
+│
+├── frontend/
+│   ├── Home.py
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── constants.py
+│   │   └── settings.py
+│   ├── pages/
+│   │   ├── 1_Single_Predict.py
+│   │   ├── 2_Batch_Predict.py
+│   │   └── 3_AI_Assistant.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── api_client.py
+│   │   └── gemini_service.py
+│   └── utils/
+│       ├── __init__.py
+│       └── validators.py
+│
+├── model/
+│   ├── __init__.py
+│   ├── feature_engineering.py
+│   ├── metrics.json
+│   └── train_model.py
+│
+├── notebook/
+│   └── xgboost.ipynb
+│
+├── README.md
+├── requirements.txt
+└── .env
+```
+# Cấu trúc thư mục dự án
+
+```
+Churn Prediction Model/
+│
+├── api/
+│   └── main.py
+│
+├── data/
+│   ├── Churn_Modelling.csv
+│   └── Test_Batch_Predict.csv
+│
+├── frontend/
+│   ├── Home.py
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── constants.py
+│   │   └── settings.py
+│   ├── pages/
+│   │   ├── 1_Single_Predict.py
+│   │   └── 2_Batch_Predict.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── api_client.py
+│   └── utils/
+│       ├── __init__.py
+│       └── validators.py
+│
+├── model/
+│   ├── __init__.py
+│   ├── feature_engineering.py
+│   ├── metrics.json
+│   └── train_model.py
+│
+├── notebook/
+│   └── xgboost.ipynb
+│
+├── README.md
+└── requirements.txt
+```
 # Churn Prediction System
 
 End-to-end customer churn prediction project with:
